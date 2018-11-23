@@ -8,6 +8,7 @@ int *ivector();
 void free_ivector(int*, long, long);
 void nrerror(char*);
 void bubble_sort(int *pvector, int l);
+void selection_sort(int *pvector, int l);
 void print_array(int arr[], int l);
 
 int main(int argc, char **argv) {
@@ -22,6 +23,7 @@ int main(int argc, char **argv) {
 	printf("\nUnsorted array: \n");
 	print_array(pvector, l);
 	bubble_sort(pvector, l);
+	selection_sort(pvector, l);
 	return 0;
 }
 
@@ -45,7 +47,26 @@ void bubble_sort(int vector[], int l) {
 			}
 		}
 	}
-	printf("\nSorted with bubble-sort: \n");
+	printf("\nSorted by bubble-sort: \n");
+	print_array(vector, l);
+}
+
+void selection_sort(int vector[], int l) {
+	int k, min_index, temp;
+	for (k=0; k<l-1; k++) {
+		int min_index = k;
+		int j;
+		for (j=k+1; j<l; j++) {
+			if (vector[j] < vector[min_index]) {
+				min_index = j;
+			}
+		}
+		//			Switch min value with first element of check
+		temp = vector[k];
+		vector[k] = vector[min_index];
+		vector[min_index] = temp;
+	}
+	printf("\nSorted by selection-sort \n");
 	print_array(vector, l);
 }
 
