@@ -13,14 +13,15 @@ void print_array(int arr[], int l);
 
 int main(int argc, char **argv) {
 	int l, *pvector, temp,i;
-	printf("How many random numbers do you want? \n");
+//	Clock example from https://www.tutorialspoint.com/c_standard_library/c_function_clock.htm
+	printf("How many random numbers do you want? (Enter big number (>1500) to get valid time measurments for the methods)\n");
 	scanf("%d", &l);
 	pvector = ivector(1, l);
 	srand(time(NULL));
 	for (i=1; i<=l; i++) {
 		pvector[i] = rand();
 	}
-	printf("\nUnsorted array: \n");
+	printf("\n\nUnsorted array: \n");
 	print_array(pvector, l);
 	bubble_sort(pvector, l);
 	selection_sort(pvector, l);
@@ -30,13 +31,16 @@ int main(int argc, char **argv) {
 void print_array(int arr[], int l) {
 	int i;
 	for (i=0; i<l; i++) {
-		printf("%d\n",arr[i]);
+		printf("%d ",arr[i]);
 	}
 }
 
 void bubble_sort(int vector[], int l) {
+	clock_t c1,c2;
 	int temp, i, j, k;
-//	Inside the functions we refer to a standard array so indexes have to start from 0
+	double time;
+//	Inside the functions we refer to a standard array so indexes have to start from 0	
+	c1 = clock();
 	for (i=0; i<l-1; i++) {
 		for (j=0; j<l-i-1; j++) {
 			temp = 0;
@@ -47,12 +51,17 @@ void bubble_sort(int vector[], int l) {
 			}
 		}
 	}
-	printf("\nSorted by bubble-sort: \n");
+	c2 = clock();
+	time = (double)(c2-c1)/CLOCKS_PER_SEC;
+	printf("\n\nSorted by bubble-sort, proccess took: %lfsec \n", time);
 	print_array(vector, l);
 }
 
 void selection_sort(int vector[], int l) {
+	clock_t c1,c2;
 	int k, min_index, temp;
+	c1 = clock();
+	double time;
 	for (k=0; k<l-1; k++) {
 		int min_index = k;
 		int j;
@@ -66,7 +75,9 @@ void selection_sort(int vector[], int l) {
 		vector[k] = vector[min_index];
 		vector[min_index] = temp;
 	}
-	printf("\nSorted by selection-sort \n");
+	c2 = clock();
+	time = (double)(c2-c1)/CLOCKS_PER_SEC;
+	printf("\n\nSorted by selection-sort, proccess took: %lfsec \n", time);
 	print_array(vector, l);
 }
 
