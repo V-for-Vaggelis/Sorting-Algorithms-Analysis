@@ -7,8 +7,10 @@
 int *ivector();
 void free_ivector(int*, long, long);
 void nrerror(char*);
+void generate_randoms(int *pvector, int l);
 void bubble_sort(int *pvector, int l);
 void selection_sort(int *pvector, int l);
+void insertion_sort(int *pvector, int l);
 void print_array(int arr[], int l);
 
 int main(int argc, char **argv) {
@@ -17,15 +19,25 @@ int main(int argc, char **argv) {
 	printf("How many random numbers do you want? (Enter big number (>1500) to get valid time measurments for the methods)\n");
 	scanf("%d", &l);
 	pvector = ivector(1, l);
+	generate_randoms(pvector, l);
+//	printf("\n\nUnsorted array: \n");
+//	print_array(pvector, l);
+	bubble_sort(pvector, l);
+	generate_randoms(pvector, l);
+	selection_sort(pvector, l);
+	generate_randoms(pvector, l);
+	insertion_sort(pvector, l);
+//	For l = 1000 or less insertion is faster than selection, for bigger values selection is faster
+	free_ivector(pvector,0,l-1);
+	return 0;
+}
+
+void generate_randoms(int vector[], int l) {
+	int i;
 	srand(time(NULL));
 	for (i=1; i<=l; i++) {
-		pvector[i] = rand();
+		vector[i] = rand();
 	}
-	printf("\n\nUnsorted array: \n");
-	print_array(pvector, l);
-	bubble_sort(pvector, l);
-	selection_sort(pvector, l);
-	return 0;
 }
 
 void print_array(int arr[], int l) {
@@ -38,7 +50,7 @@ void print_array(int arr[], int l) {
 void bubble_sort(int vector[], int l) {
 	clock_t c1,c2;
 	int temp, i, j, k;
-	double time;
+	double time1;
 //	Inside the functions we refer to a standard array so indexes have to start from 0	
 	c1 = clock();
 	for (i=0; i<l-1; i++) {
@@ -52,16 +64,16 @@ void bubble_sort(int vector[], int l) {
 		}
 	}
 	c2 = clock();
-	time = (double)(c2-c1)/CLOCKS_PER_SEC;
-	printf("\n\nSorted by bubble-sort, proccess took: %lfsec \n", time);
-	print_array(vector, l);
+	time1 = (double)(c2-c1)/CLOCKS_PER_SEC;
+	printf("\n\nSorted by bubble-sort, proccess took: %lfsec \n", time1);
+//	print_array(vector, l);
 }
 
 void selection_sort(int vector[], int l) {
-	clock_t c1,c2;
+	clock_t c3,c4;
 	int k, min_index, temp;
-	c1 = clock();
-	double time;
+	c3 = clock();
+	double time2;
 	for (k=0; k<l-1; k++) {
 		int min_index = k;
 		int j;
@@ -75,10 +87,31 @@ void selection_sort(int vector[], int l) {
 		vector[k] = vector[min_index];
 		vector[min_index] = temp;
 	}
-	c2 = clock();
-	time = (double)(c2-c1)/CLOCKS_PER_SEC;
-	printf("\n\nSorted by selection-sort, proccess took: %lfsec \n", time);
-	print_array(vector, l);
+	c4 = clock();
+	time2 = (double)(c4-c3)/CLOCKS_PER_SEC;
+	printf("\n\nSorted by selection-sort, proccess took: %lfsec \n", time2);
+//	print_array(vector, l);
+}
+
+void insertion_sort(int vector[], int l) {
+	clock_t c5,c6;
+	double time3;
+	int i,j, element, temp;
+	c5 = clock();
+	for (i=1; i<l; i++) {
+		element = vector[i];
+		j=i;
+		while (j>0 && (vector[j-1] > element)) {
+			temp = vector[j-1];
+			vector[j-1] = vector[j];
+			vector[j] = temp;
+			j = j-1;
+		}
+	}
+	c6=clock();
+	time3 = (double)(c6-c5)/CLOCKS_PER_SEC;
+	printf("\n\nSorted by insertion-sort, proccess took: %lfsec \n", time3);
+//	print_array(vector, l);
 }
 
 void nrerror(error_text)
@@ -113,3 +146,5 @@ long nh,nl;
         free((FREE_ARG) (v+nl-NR_END));
 return;
 }
+
+//Gia to merge kanw anadromiko function (merge) pou dexetai sunexws 2 listes kai epistrefei mia  diplasiou megethous
