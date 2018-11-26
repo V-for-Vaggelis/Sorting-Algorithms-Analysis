@@ -1,3 +1,4 @@
+// sorting algorithms link: https://www.youtube.com/playlist?list=PLNUGZd06N4RdQi2ZX5tGvNYhdzzeJmNCF
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
@@ -11,6 +12,9 @@ void generate_randoms(int *pvector, int l);
 void bubble_sort(int *pvector, int l);
 void selection_sort(int *pvector, int l);
 void insertion_sort(int *pvector, int l);
+void merge_sort(int *pvector, int l);
+void mergeSort(int arr[], int l, int r);
+void merge(int arr[], int l, int m, int r); 
 void print_array(int arr[], int l);
 
 int main(int argc, char **argv) {
@@ -27,7 +31,10 @@ int main(int argc, char **argv) {
 	selection_sort(pvector, l);
 	generate_randoms(pvector, l);
 	insertion_sort(pvector, l);
+	generate_randoms(pvector, l);
 //	For l = 1000 or less insertion is faster than selection, for bigger values selection is faster
+	merge_sort(pvector, l);
+//	print_array(pvector, l);
 	free_ivector(pvector,0,l-1);
 	return 0;
 }
@@ -114,6 +121,93 @@ void insertion_sort(int vector[], int l) {
 //	print_array(vector, l);
 }
 
+//This just commands the merge sort and times it
+void merge_sort(int vector[], int l) {
+	double time4;
+	clock_t c7,c8;
+	c7 = clock();
+	mergeSort(vector, 0, l);
+	c8 = clock();
+	time4 = (double)(c8-c7)/CLOCKS_PER_SEC;
+	printf("\n\nSorting with merge sort took %lfsec\n", time4);
+}
+
+//https://www.geeksforgeeks.org/merge-sort/
+/* l is for left index and r is right index of the 
+   sub-array of arr to be sorted */
+void mergeSort(int arr[], int l, int r) 
+{ 
+    if (l < r) 
+    { 
+        // Same as (l+r)/2, but avoids overflow for 
+        // large l and h 
+        int m = l+(r-l)/2; 
+  
+        // Sort first and second halves 
+        mergeSort(arr, l, m); 
+        mergeSort(arr, m+1, r); 
+  
+        merge(arr, l, m, r); 
+    } 
+} 
+
+// Merges two subarrays of arr[]. 
+// First subarray is arr[l..m] 
+// Second subarray is arr[m+1..r] 
+void merge(int arr[], int l, int m, int r) { 
+    int i, j, k; 
+    int n1 = m - l + 1; 
+    int n2 =  r - m; 
+  
+    /* create temp arrays */
+    int L[n1], R[n2]; 
+  
+    /* Copy data to temp arrays L[] and R[] */
+    for (i = 0; i < n1; i++) 
+        L[i] = arr[l + i]; 
+    for (j = 0; j < n2; j++) 
+        R[j] = arr[m + 1+ j]; 
+  
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray 
+    j = 0; // Initial index of second subarray 
+    k = l; // Initial index of merged subarray 
+    while (i < n1 && j < n2) 
+    { 
+        if (L[i] <= R[j]) 
+        { 
+            arr[k] = L[i]; 
+            i++; 
+        } 
+        else
+        { 
+            arr[k] = R[j]; 
+            j++; 
+        } 
+        k++; 
+    } 
+  
+    /* Copy the remaining elements of L[], if there 
+       are any */
+    while (i < n1) 
+    { 
+        arr[k] = L[i]; 
+        i++; 
+        k++; 
+    } 
+  
+    /* Copy the remaining elements of R[], if there 
+       are any */
+    while (j < n2) 
+    { 
+        arr[k] = R[j]; 
+        j++; 
+        k++; 
+    } 
+} 
+  
+/* l is for left index and r is right index of the 
+   sub-array of arr to be sorted */
 void nrerror(error_text)
 char error_text[];
 /* standard error handler */
