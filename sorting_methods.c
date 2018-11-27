@@ -30,7 +30,7 @@ int main() {
 		exit(-1); // must include stdlib.h 
 	} 
 	for(l=200; l<=20000; l=l+200) {
-		fprintf(out_file, "%d\t", l);
+		fprintf(out_file, "%d ", l);
 		pvector = ivector(1, l);
 		generate_randoms(pvector, l);
 		//	printf("\n\nUnsorted array: \n");
@@ -40,21 +40,21 @@ int main() {
 		bubble_sort(pvector, l);
 		c2 = clock();
 		time1 = (double)(c2-c1)/CLOCKS_PER_SEC;
-		fprintf(out_file, "%lf\t",time1);
+		fprintf(out_file, "%lf ",time1);
 		
 		generate_randoms(pvector, l);
 		c3 = clock();
 		selection_sort(pvector, l);
 		c4 = clock();
 		time2 = (double)(c4-c3)/CLOCKS_PER_SEC;
-		fprintf(out_file, "%lf\t",time2);
+		fprintf(out_file, "%lf ",time2);
 		
 		generate_randoms(pvector, l);
 		c5 = clock();
 		insertion_sort(pvector, l);
 		c6 = clock();
 		time3 = (double)(c6-c5)/CLOCKS_PER_SEC;
-		fprintf(out_file, "%lf\t",time3);
+		fprintf(out_file, "%lf ",time3);
 		
 		generate_randoms(pvector, l);
 		c7 = clock();
